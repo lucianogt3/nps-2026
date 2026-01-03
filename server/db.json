@@ -1,0 +1,351 @@
+{
+  "actionPlans": [],
+  "sectors": [
+    {
+      "id": "consultorios",
+      "name": "Consultórios Médicos",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Stethoscope",
+      "categories": [
+        "CAT_RECEP_CONS",
+        "CAT_MED_CONS",
+        "CAT_AMB"
+      ]
+    },
+    {
+      "id": "imagem",
+      "name": "Diagnóstico por Imagem",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Eye",
+      "categories": [
+        "CAT_RECEP_IMG",
+        "CAT_TEC_IMG",
+        "CAT_AMB"
+      ]
+    },
+    {
+      "id": "cardio",
+      "name": "Exames Cardiológicos",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Heart",
+      "categories": [
+        "CAT_RECEP_CONS",
+        "CAT_MED_GERAL",
+        "CAT_AMB"
+      ]
+    },
+    {
+      "id": "hemo",
+      "name": "Hemodinâmica",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Activity",
+      "categories": [
+        "CAT_RECEP_CONS",
+        "CAT_ENF_GERAL",
+        "CAT_MED_GERAL",
+        "CAT_AMB",
+        "CAT_INTERNACAO"
+      ]
+    },
+    {
+      "id": "lab",
+      "name": "Laboratório Saúde",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Beaker",
+      "categories": [
+        "CAT_RECEP_CONS",
+        "CAT_TEC_LAB",
+        "CAT_AMB"
+      ]
+    },
+    {
+      "id": "ps",
+      "name": "Pronto Socorro",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Ambulance",
+      "categories": [
+        "CAT_RECEP_PS",
+        "CAT_ENF_PS",
+        "CAT_MED_GERAL",
+        "CAT_ENF_GERAL",
+        "CAT_TEC_LAB",
+        "CAT_TEC_IMG",
+        "CAT_COND",
+        "CAT_AMB"
+      ]
+    },
+    {
+      "id": "internacao",
+      "name": "Unidades de Internação",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Bed",
+      "categories": [
+        "CAT_MED_GERAL",
+        "CAT_ENF_GERAL",
+        "CAT_FISIO",
+        "CAT_NUTRI",
+        "CAT_FONO",
+        "CAT_PSICO",
+        "CAT_TEC_LAB",
+        "CAT_TEC_IMG",
+        "CAT_REF",
+        "CAT_AMB",
+        "CAT_COND",
+        "CAT_CUIDADO"
+      ]
+    },
+    {
+      "id": "uti",
+      "name": "UTI (Terapia Intensiva)",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Siren",
+      "categories": [
+        "CAT_MED_GERAL",
+        "CAT_ENF_GERAL",
+        "CAT_FISIO",
+        "CAT_NUTRI",
+        "CAT_FONO",
+        "CAT_PSICO",
+        "CAT_TEC_LAB",
+        "CAT_TEC_IMG",
+        "CAT_REF",
+        "CAT_AMB",
+        "CAT_COND",
+        "CAT_CUIDADO"
+      ]
+    },
+    {
+      "id": "sec-1764622388604",
+      "name": "teste",
+      "managerId": "",
+      "isActive": true,
+      "iconName": "Activity",
+      "categories": []
+    }
+  ],
+  "config": {
+    "hospitalName": "Hospital Santa Helena",
+    "logoUrl": "",
+    "brandColor": "#be123c",
+    "sidebarBgColor": "#0f172a",
+    "sidebarTextColor": "#ffffff",
+    "kioskBgColor": "#f8fafc",
+    "kioskTextColor": "#1e293b",
+    "kioskCardBgColor": "#ffffff",
+    "customApiUrl": "http://localhost:4000/api/sync",
+    "customApiKey": "segredo-123"
+  },
+  "users": [
+    {
+      "id": "admin",
+      "name": "Administrador",
+      "email": "admin@sistema.com",
+      "password": "123",
+      "role": "admin",
+      "avatarColor": "bg-slate-800",
+      "isActive": true
+    }
+  ],
+  "categories": [
+    {
+      "id": "CAT_RECEP_CONS",
+      "label": "Recepção (Consultórios)",
+      "iconName": "UserPlus",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Facilidade para agendar retorno?"
+      ]
+    },
+    {
+      "id": "CAT_RECEP_IMG",
+      "label": "Recepção (Imagem)",
+      "iconName": "UserPlus",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Facilidade para agendar?",
+        "Entregas de resultados?"
+      ]
+    },
+    {
+      "id": "CAT_RECEP_PS",
+      "label": "Recepção (PS)",
+      "iconName": "UserPlus",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Demora para início do atendimento?"
+      ]
+    },
+    {
+      "id": "CAT_MED_CONS",
+      "label": "Médicos (Consultório)",
+      "iconName": "Stethoscope",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Explicação do uso de medicamentos?",
+        "Demora para início da consulta?"
+      ]
+    },
+    {
+      "id": "CAT_MED_GERAL",
+      "label": "Equipe Médica (Geral)",
+      "iconName": "Stethoscope",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Explicação do diagnóstico?"
+      ]
+    },
+    {
+      "id": "CAT_ENF_PS",
+      "label": "Enfermagem (Acolhimento PS)",
+      "iconName": "Heart",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Demora para início do atendimento?"
+      ]
+    },
+    {
+      "id": "CAT_ENF_GERAL",
+      "label": "Equipe de Enfermagem",
+      "iconName": "Heart",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Ajudou logo que necessitava?",
+        "Explicação do uso de medicamentos?",
+        "Demora para passar visita?"
+      ]
+    },
+    {
+      "id": "CAT_TEC_IMG",
+      "label": "Técnicos (Imagem)",
+      "iconName": "Eye",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Demora para início do exame?"
+      ]
+    },
+    {
+      "id": "CAT_TEC_LAB",
+      "label": "Técnicos (Laboratório)",
+      "iconName": "Beaker",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?",
+        "Demora para início da coleta?"
+      ]
+    },
+    {
+      "id": "CAT_FISIO",
+      "label": "Fisioterapia",
+      "iconName": "Activity",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?"
+      ]
+    },
+    {
+      "id": "CAT_NUTRI",
+      "label": "Nutricionistas",
+      "iconName": "Utensils",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?"
+      ]
+    },
+    {
+      "id": "CAT_FONO",
+      "label": "Fonoaudiologia",
+      "iconName": "Ear",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?"
+      ]
+    },
+    {
+      "id": "CAT_PSICO",
+      "label": "Psicologia",
+      "iconName": "Brain",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Escuta atenta?",
+        "Comunicação efetiva?"
+      ]
+    },
+    {
+      "id": "CAT_COND",
+      "label": "Condutores / Maqueiros",
+      "iconName": "Truck",
+      "questions": [
+        "Tratamento com cortesia e respeito?",
+        "Demora para transportar?"
+      ]
+    },
+    {
+      "id": "CAT_AMB",
+      "label": "Ambiente",
+      "iconName": "Sparkles",
+      "questions": [
+        "Limpeza do local?",
+        "Nível de silêncio?",
+        "Conforto térmico?"
+      ]
+    },
+    {
+      "id": "CAT_REF",
+      "label": "Refeição",
+      "iconName": "Utensils",
+      "questions": [
+        "Apresentação?",
+        "Quantidade?",
+        "Sabor?",
+        "Temperatura?",
+        "Variedade?"
+      ]
+    },
+    {
+      "id": "CAT_CUIDADO",
+      "label": "Cuidado Centrado no Paciente",
+      "iconName": "Heart",
+      "questions": [
+        "Consideração das suas preferências?",
+        "Envolvimento da família nas decisões?"
+      ]
+    },
+    {
+      "id": "CAT_INTERNACAO",
+      "label": "Necessidade de Internação",
+      "iconName": "Bed",
+      "questions": [
+        "Clareza nas informações sobre a internação?"
+      ]
+    }
+  ],
+  "responses": []
+}

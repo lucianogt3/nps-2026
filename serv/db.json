@@ -1,0 +1,21 @@
+{
+  "config": {
+    "hospitalName": "Hospital Santa Helena",
+    "logoUrl": "",
+    "brandColor": "#be123c",
+    "sidebarBgColor": "#0f172a",
+    "sidebarTextColor": "#ffffff",
+    "kioskBgColor": "#f8fafc",
+    "kioskTextColor": "#1e293b",
+    "kioskCardBgColor": "#ffffff",
+    "customApiUrl": "http://localhost:3001/api/sync",
+    "customApiKey": "segredo-123"
+  },
+  "users": [
+    { "id": "admin", "name": "Administrador", "email": "admin@sistema.com", "password": "123", "role": "admin", "avatarColor": "bg-slate-800", "isActive": true }
+  ],
+  "sectors": [],
+  "categories": [],
+  "responses": [],
+  "actionPlans": []
+}
