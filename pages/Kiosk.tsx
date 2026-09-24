@@ -24,7 +24,7 @@ export default function Kiosk({ config, sectors, categories, onSubmit, onExit }:
   if (!sectors) {
       return <div className="p-10 text-center text-red-500">Erro: Setores não carregados. Configure-os no painel.</div>;
   }
-  
+
   // Reset automático se ficar inativo por muito tempo (exceto na tela idle)
   useEffect(() => {
     if (step === 'idle') return;

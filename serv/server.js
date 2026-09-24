@@ -1,95 +1,147 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const path = require('path');
+// server/server.js
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const path = require("path");
+require("dotenv").config(); // Lê .env na raiz do projeto
 
 const app = express();
-const PORT = 3001;
-const DB_FILE = path.join(__dirname, 'db.json');
-const API_KEY = 'segredo-123'; // Simulação de segurança simples
 
-// Middleware
-app.use(cors()); // Permite que o Front-end (localhost:3000 ou 5173) acesse este servidor
-app.use(bodyParser.json({ limit: '50mb' })); // Aumentado limite para suportar backups grandes
+// -------------------------
+// CONFIG
+// -------------------------
+const PORT = Number(process.env.PORT || 3333);
+const DB_FILE = path.join(__dirname, "db.json");
+const API_KEY = process.env.API_KEY || "segredo-123"; // ✅ vem do .env
 
-// Função auxiliar para ler o DB
+// -------------------------
+// MIDDLEWARES
+// -------------------------
+app.use(cors());
+app.use(bodyParser.json({ limit: "50mb" }));
+
+function requireApiKey(req, res, next) {
+  const clientKey = req.headers["x-api-key"];
+
+  if (!clientKey || clientKey !== API_KEY) {
+    return res.status(403).json({ error: "Chave de API inválida" });
+  }
+  next();
+}
+
+// -------------------------
+// DB HELPERS
+// -------------------------
+const ensureDB = () => {
+  if (!fs.existsSync(DB_FILE)) {
+    const initialData = {
+      config: {},
+      users: [],
+      sectors: [],
+      categories: [],
+      responses: [],
+      actionPlans: [],
+    };
+    fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2));
+    return initialData;
+  }
+  return null;
+};
+
 const readDB = () => {
-    try {
-        if (!fs.existsSync(DB_FILE)) {
-            // Cria arquivo vazio se não existir
-            const initialData = { config: {}, users: [], sectors: [], categories: [], responses: [], actionPlans: [] };
-            fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2));
-            return initialData;
-        }
-        const data = fs.readFileSync(DB_FILE, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Erro ao ler DB:', error);
-        return {};
-    }
+  try {
+    ensureDB();
+    const data = fs.readFileSync(DB_FILE, "utf8");
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("❌ Erro ao ler DB:", error);
+    return {
+      config: {},
+      users: [],
+      sectors: [],
+      categories: [],
+      responses: [],
+      actionPlans: [],
+      _error: "Falha ao ler db.json",
+    };
+  }
 };
 
-// Função auxiliar para salvar o DB
 const writeDB = (data) => {
-    try {
-        fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
-        return true;
-    } catch (error) {
-        console.error('Erro ao salvar DB:', error);
-        return false;
-    }
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+    return true;
+  } catch (error) {
+    console.error("❌ Erro ao salvar DB:", error);
+    return false;
+  }
 };
 
-// Rota de Teste/Status
-app.get('/', (req, res) => {
-    res.send('NurseTec Server is Running! 🚀');
+// -------------------------
+// ROUTES
+// -------------------------
+
+// Status simples
+app.get("/", (req, res) => {
+  res.send("NurseTec Server is Running! 🚀");
 });
 
-// Rota Principal de Sincronização (GET)
-// O Front-end chama isso ao iniciar para pegar todos os dados
-app.get('/api/sync', (req, res) => {
-    // Verificação simples de token (Opcional)
-    const clientKey = req.headers['x-api-key'];
-    if (clientKey && clientKey !== API_KEY) {
-        return res.status(403).json({ error: 'Acesso não autorizado' });
-    }
-
-    const db = readDB();
-    res.json(db);
+// ✅ Health público (para monitoramento)
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    ok: true,
+    service: "nursetec-server",
+    port: PORT,
+    ts: new Date().toISOString(),
+  });
 });
 
-// Rota Principal de Sincronização (POST)
-// O Front-end chama isso sempre que algo muda (ex: nova resposta, novo setor)
-app.post('/api/sync', (req, res) => {
-    const clientKey = req.headers['x-api-key'];
-    if (clientKey && clientKey !== API_KEY) {
-        return res.status(403).json({ error: 'Acesso não autorizado' });
-    }
-
-    const { type, data } = req.body;
-    const db = readDB();
-
-    if (!type || !data) {
-        return res.status(400).json({ error: 'Payload inválido. Necessário "type" e "data".' });
-    }
-
-    console.log(`[SYNC] Recebendo atualização de: ${type}`);
-
-    // Atualiza apenas a seção específica do banco de dados
-    // ex: se type for 'sectors', atualiza apenas db.sectors
-    db[type] = data;
-
-    if (writeDB(db)) {
-        res.json({ success: true, message: `${type} atualizado com sucesso.` });
-    } else {
-        res.status(500).json({ error: 'Falha ao escrever no banco de dados.' });
-    }
+// ✅ Health protegido (para testar API KEY)
+app.get("/api/health", requireApiKey, (req, res) => {
+  res.status(200).json({
+    ok: true,
+    service: "nursetec-server",
+    protected: true,
+    ts: new Date().toISOString(),
+  });
 });
 
-// Inicia o servidor
+// ✅ Sync (GET) - retorna DB inteiro
+app.get("/api/sync", requireApiKey, (req, res) => {
+  const db = readDB();
+  res.json(db);
+});
+
+// ✅ Sync (POST) - atualiza seção específica do DB
+app.post("/api/sync", requireApiKey, (req, res) => {
+  const { type, data } = req.body || {};
+  const db = readDB();
+
+  if (!type || typeof type !== "string") {
+    return res.status(400).json({ error: 'Payload inválido. Necessário "type" (string).' });
+  }
+  if (data === undefined) {
+    return res.status(400).json({ error: 'Payload inválido. Necessário "data".' });
+  }
+
+  console.log(`[SYNC] Recebendo atualização de: ${type}`);
+
+  // Atualiza apenas a chave solicitada
+  db[type] = data;
+
+  if (writeDB(db)) {
+    return res.json({ success: true, message: `${type} atualizado com sucesso.` });
+  }
+  return res.status(500).json({ error: "Falha ao escrever no banco de dados." });
+});
+
+// -------------------------
+// START
+// -------------------------
 app.listen(PORT, () => {
-    console.log(`\n✅ Servidor NurseTec rodando em: http://localhost:${PORT}`);
-    console.log(`📄 Banco de dados: ${DB_FILE}`);
-    console.log(`🔑 API Key Padrão: ${API_KEY}\n`);
+  ensureDB();
+  console.log(`\n✅ Servidor Backend rodando em: http://localhost:${PORT}`);
+  console.log(`📂 Arquivo de dados: ${DB_FILE}`);
+  console.log(`🔐 API_KEY (env): ${process.env.API_KEY ? "OK" : "não definida (usando default)"}\n`);
 });
